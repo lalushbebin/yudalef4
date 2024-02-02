@@ -1,7 +1,10 @@
+import json
 import os
+from urllib.parse import parse_qs
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
 count = 0
+code = "011FGH"
 
 class GetPostServer(BaseHTTPRequestHandler):
     def __init__(self, request, client_address, _server):
@@ -41,6 +44,14 @@ class GetPostServer(BaseHTTPRequestHandler):
                 self.wfile.write(file.read().replace("{{site_name}}", 'Error 404').encode())
             self.wfile.write("<h1>Url unreachable!</h1>".encode())
             self.wfile.write("</body></html>".encode())
+
+    def do_POST(self):
+        length = int(self.headers.get('content-length'))
+        field_data = self.rfile.read(length)
+        fields = json.loads(field_data)
+
+        if fields['code'] == code:
+            print("test")
 
 
 if __name__ == '__main__':

@@ -50,8 +50,10 @@ class GetPostServer(BaseHTTPRequestHandler):
         field_data = self.rfile.read(length)
         fields = json.loads(field_data)
 
+        print("test")
+
         if fields['code'] == code:
-            print("test")
+            print("address: " + self.address_string())
 
 
 if __name__ == '__main__':
